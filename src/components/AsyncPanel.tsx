@@ -1,0 +1,3 @@
+import type { ReactNode } from 'react';
+import { AlertCircle, RefreshCw } from 'lucide-react';
+export function AsyncPanel({loading,error,onRetry,children}:{loading:boolean;error?:Error|null;onRetry?:()=>void;children:ReactNode}){ if(loading)return <div className="panel-state" role="status"><span className="spinner"/>Loading market data...</div>; if(error)return <div className="panel-state error" role="alert"><AlertCircle/><div><strong>We couldn't load this panel</strong><p>{error.message}</p></div>{onRetry&&<button className="icon-button" onClick={onRetry} title="Retry"><RefreshCw/></button>}</div>; return <>{children}</>; }
