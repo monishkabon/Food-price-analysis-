@@ -1,4 +1,7 @@
-node_modules
-dist\assets\index-xl4U4AUk.css
-dist\assets\index-1WI5sPaO.js
-test-results\.last-run.json
+node_modules/
+dist/
+test-results/
+playwright-report/
+coverage/
+.env
+*.log
