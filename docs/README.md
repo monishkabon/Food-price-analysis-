@@ -77,24 +77,3 @@ This repository is structured around the 12 core tasks of the Statistical Innova
 * **Task 12: Final Consultancy Recommendations** — Strategic, operational, risk-mitigation, and ethical roadmaps for executive management[cite: 7].
 
 ---
-
-## 5. Repository Structure
-
-```text
-├── data/
-│   ├── raw/                  # Downloaded WFP Sri Lanka CSV/XLSX files
-│   └── processed/            # Cleaned, filtered, and feature-engineered datasets
-├── notebooks/
-│   ├── 01_data_cleaning_eda.ipynb          # Tasks 3 & 4 (EDA & Inference)
-│   ├── 02_predictive_modelling.ipynb       # Task 5 (OLS, Ridge, LASSO, Logistic)
-│   └── 03_advanced_methodologies_eval.ipynb# Tasks 6, 7, 8, 9 (Calculations/Plots)
-├── reports/
-│   ├── figures/              # Exported visualizations and correlation plots
-│   └── consultancy_report.pdf# Final Board of Directors consultancy report
-├── presentation/
-│   └── executive_slides.pptx # 15-minute presentation slide deck
-├── src/
-│   ├── data_loader.py        # Data pipeline and reshaping routines
-│   └── statistical_tests.py  # Automated ANOVA, t-test, and regression modules
-├── requirements.txt          # Python dependencies
-└── README.md                 # Project documentation
