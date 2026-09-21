@@ -1,16 +1,35 @@
-# React + Vite
+# MarketLens Food Price Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive decision-support frontend for exploring Sri Lankan food prices, generating transparent forecasts, and comparing economic scenarios. The app runs with representative demo data by default and is ready to connect to the REST API described in the project PRD.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Open `http://localhost:5173`. The interface displays a **Demo data** indicator whenever the local mock client is active.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## API mode
 
-## Expanding the Oxlint configuration
+Copy `.env.example` to `.env` and choose a mode:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```env
+VITE_API_MODE=mock
+VITE_API_BASE_URL=/api
+```
+
+Set `VITE_API_MODE=live` to use the configured backend. The frontend expects `/metadata`, `/prices`, `/overview`, `/predict`, `/model/info`, and `/health` beneath `VITE_API_BASE_URL`.
+
+## Quality checks
+
+```bash
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+```
+
+The application intentionally excludes authentication, exports, maps, alerts, saved accounts, supplier recommendations, and inventory recommendations from this MVP.
