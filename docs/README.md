@@ -2,8 +2,8 @@
  SM Project
  Y3S1 
  2026-DS-12
- 
-# Predicting Regional Staple Food Price Volatility for Optimized Retail Procurement in Sri Lanka
+
+## Predicting Regional Staple Food Price Volatility for Optimized Retail Procurement in Sri Lanka
 
 A statistical consultancy project evaluating regional commodity price dynamics, market integration, and predictive forecasting to optimize supply chain procurement for a national retail chain[cite: 7, 9].
 
