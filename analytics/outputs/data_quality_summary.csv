@@ -1,0 +1,9 @@
+metric,value,notes
+raw_rows,33855,All rows in the Excel file
+rows_after_filter,1922,After Retail/LKR/KG/commodity filter
+duplicate_combos_resolved,0,Aggregated to median price
+calendar_months_inserted,141,Price set to NA for inserted months
+spike_flags,225,Month-over-month change > 50% — NOT removed
+total_series,77,Unique commodity-market pairs in eligible commodities
+eligible_series,72,Series with ≥ 12 observed months
+final_rows,2014,Final cleaned rows (eligible series)
