@@ -4,12 +4,8 @@
 # Run     : Rscript api/run_api.R
 # =============================================================================
 
-# Resolve paths relative to the project root (one level up from api/)
-PROJ_ROOT    <- normalizePath(file.path(dirname(sys.frame(1)$ofile), ".."),
-                              mustWork = FALSE)
-if (!nchar(PROJ_ROOT) || PROJ_ROOT == ".") {
-  PROJ_ROOT <- normalizePath("..", mustWork = FALSE)
-}
+# Plumber evaluates this file with api/ as the working directory.
+PROJ_ROOT <- normalizePath("..", mustWork = TRUE)
 
 BUNDLE_PATH  <- file.path(PROJ_ROOT, "analytics", "outputs", "model_bundle.rds")
 CLEANED_PATH <- file.path(PROJ_ROOT, "analytics", "outputs", "cleaned_food_prices.csv")
@@ -23,6 +19,8 @@ suppressPackageStartupMessages({
   library(readr)
   library(jsonlite)
   library(lubridate)
+  library(caret)
+  library(glmnet)
 })
 
 source(FEATURE_SRC)

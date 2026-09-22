@@ -229,8 +229,9 @@ cat(sprintf("\n  rolling_volatility_3m: OR = %.3f [%.3f, %.3f], p = %.4f\n",
             OR, CI_lower, CI_upper, p_vol))
 
 # Nagelkerke pseudo R²
-ll_null <- logLik(logit_null)
-ll_full <- logLik(logit_full)
+# Drop the logLik class before arithmetic so the effect size is a plain number.
+ll_null <- as.numeric(logLik(logit_null))
+ll_full <- as.numeric(logLik(logit_full))
 n_q3    <- nrow(df_q3)
 nagelkerke_r2 <- (1 - exp((2/n_q3) * (ll_null - ll_full))) /
                  (1 - exp((2/n_q3) * ll_null))

@@ -12,6 +12,7 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(readr)
   library(glmnet)
+  library(caret)
   library(tibble)
   library(ggplot2)
   library(scales)

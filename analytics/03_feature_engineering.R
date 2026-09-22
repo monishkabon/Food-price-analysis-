@@ -137,10 +137,10 @@ target_summary <- training_rows %>%
   )
 
 cat(sprintf("   n training rows              : %d\n", target_summary$n))
-cat(sprintf("   Mean |Δ%| next month         : %.2f%%\n", target_summary$mean_abs_change))
-cat(sprintf("   Median |Δ%| next month       : %.2f%%\n", target_summary$median_abs_change))
+cat(sprintf("   Mean |Δ%%| next month         : %.2f%%\n", target_summary$mean_abs_change))
+cat(sprintf("   Median |Δ%%| next month       : %.2f%%\n", target_summary$median_abs_change))
 cat(sprintf("   SD                           : %.2f%%\n", target_summary$sd_abs_change))
-cat(sprintf("   Max |Δ%|                     : %.2f%%\n", target_summary$max_abs_change))
+cat(sprintf("   Max |Δ%%|                     : %.2f%%\n", target_summary$max_abs_change))
 cat(sprintf("   %% months with >10%% change   : %.1f%%\n", target_summary$pct_large_changes))
 
 cat("\n   Per-commodity breakdown:\n")
