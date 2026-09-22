@@ -7,10 +7,29 @@
 # Plumber evaluates this file with api/ as the working directory.
 PROJ_ROOT <- normalizePath("..", mustWork = TRUE)
 
-BUNDLE_PATH  <- file.path(PROJ_ROOT, "analytics", "outputs", "model_bundle.rds")
-CLEANED_PATH <- file.path(PROJ_ROOT, "analytics", "outputs", "cleaned_food_prices.csv")
-EVAL_PATH    <- file.path(PROJ_ROOT, "analytics", "outputs", "evaluation_results.csv")
-PFOOD_PATH   <- file.path(PROJ_ROOT, "analytics", "outputs", "per_food_evaluation.csv")
+find_asset <- function(paths) {
+  for (p in paths) {
+    if (file.exists(p)) return(p)
+  }
+  return(paths[1])
+}
+
+BUNDLE_PATH  <- find_asset(c(
+  file.path(PROJ_ROOT, "analytics", "outputs", "models", "model_bundle.rds"),
+  file.path(PROJ_ROOT, "analytics", "outputs", "model_bundle.rds")
+))
+CLEANED_PATH <- find_asset(c(
+  file.path(PROJ_ROOT, "analytics", "outputs", "data", "cleaned_food_prices.csv"),
+  file.path(PROJ_ROOT, "analytics", "outputs", "cleaned_food_prices.csv")
+))
+EVAL_PATH    <- find_asset(c(
+  file.path(PROJ_ROOT, "analytics", "outputs", "reports", "evaluation_results.csv"),
+  file.path(PROJ_ROOT, "analytics", "outputs", "evaluation_results.csv")
+))
+PFOOD_PATH   <- find_asset(c(
+  file.path(PROJ_ROOT, "analytics", "outputs", "reports", "per_food_evaluation.csv"),
+  file.path(PROJ_ROOT, "analytics", "outputs", "per_food_evaluation.csv")
+))
 FEATURE_SRC  <- file.path(PROJ_ROOT, "analytics", "utils", "feature_builder.R")
 
 suppressPackageStartupMessages({
@@ -43,9 +62,7 @@ load_assets <- function() {
   }, error = function(e) {
     message("[API] WARNING: Could not load assets — ", conditionMessage(e))
     message("[API] Run the analytics pipeline first:")
-    message("[API]   Rscript analytics/01_data_cleaning.R")
-    message("[API]   ...through...")
-    message("[API]   Rscript analytics/06_model_evaluation.R")
+    message("[API]   Rscript analytics/run_pipeline.R")
   })
 }
 
@@ -324,7 +341,7 @@ function(res) {
   if (!API_READY) return(json_error(res, 503, "API not ready."))
   if (is.null(BUNDLE$test_performance)) {
     return(json_error(res, 404,
-      "Evaluation results not yet available. Run analytics/06_model_evaluation.R."))
+      "Evaluation results not yet available. Run analytics/scripts/06_model_evaluation.R."))
   }
 
   perf <- BUNDLE$test_performance
