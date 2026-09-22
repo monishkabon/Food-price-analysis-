@@ -3,10 +3,26 @@
 # Purpose : Request validation helpers used by plumber.R
 # =============================================================================
 
-# Load the model bundle path (resolved relative to API root)
-BUNDLE_PATH  <- file.path("..", "analytics", "outputs", "model_bundle.rds")
-CLEANED_PATH <- file.path("..", "analytics", "outputs", "cleaned_food_prices.csv")
-EVAL_PATH    <- file.path("..", "analytics", "outputs", "evaluation_results.csv")
+# Load asset paths (resolved relative to API directory)
+find_asset <- function(paths) {
+  for (p in paths) {
+    if (file.exists(p)) return(p)
+  }
+  return(paths[1])
+}
+
+BUNDLE_PATH  <- find_asset(c(
+  file.path("..", "analytics", "outputs", "models", "model_bundle.rds"),
+  file.path("..", "analytics", "outputs", "model_bundle.rds")
+))
+CLEANED_PATH <- find_asset(c(
+  file.path("..", "analytics", "outputs", "data", "cleaned_food_prices.csv"),
+  file.path("..", "analytics", "outputs", "cleaned_food_prices.csv")
+))
+EVAL_PATH    <- find_asset(c(
+  file.path("..", "analytics", "outputs", "reports", "evaluation_results.csv"),
+  file.path("..", "analytics", "outputs", "evaluation_results.csv")
+))
 
 # ---------------------------------------------------------------------------
 # validate_ids()

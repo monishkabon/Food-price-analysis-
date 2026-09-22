@@ -56,9 +56,13 @@ if (file.exists(data_path)) {
 # --- 4. Output directories ---------------------------------------------
 cat("\nCreating output directories (if not present):\n")
 dirs_to_create <- c(
+  "analytics/scripts",
+  "analytics/utils",
   "analytics/outputs",
-  "analytics/outputs/plots",
-  "analytics/utils"
+  "analytics/outputs/data",
+  "analytics/outputs/models",
+  "analytics/outputs/reports",
+  "analytics/outputs/plots"
 )
 for (d in dirs_to_create) {
   dir.create(d, recursive = TRUE, showWarnings = FALSE)
@@ -69,13 +73,15 @@ for (d in dirs_to_create) {
 cat("\n=== Summary ===\n")
 if (length(missing_packages) == 0) {
   cat("All packages are installed. You are ready to run the analytics pipeline.\n")
-  cat("Recommended execution order:\n")
-  cat("  Rscript analytics/01_data_cleaning.R\n")
-  cat("  Rscript analytics/02_descriptive_analysis.R\n")
-  cat("  Rscript analytics/03_feature_engineering.R\n")
-  cat("  Rscript analytics/04_statistical_inference.R\n")
-  cat("  Rscript analytics/05_model_training.R\n")
-  cat("  Rscript analytics/06_model_evaluation.R\n")
+  cat("Run entire pipeline at once:\n")
+  cat("  Rscript analytics/run_pipeline.R\n\n")
+  cat("Or execute steps sequentially:\n")
+  cat("  Rscript analytics/scripts/01_data_cleaning.R\n")
+  cat("  Rscript analytics/scripts/02_descriptive_analysis.R\n")
+  cat("  Rscript analytics/scripts/03_feature_engineering.R\n")
+  cat("  Rscript analytics/scripts/04_statistical_inference.R\n")
+  cat("  Rscript analytics/scripts/05_model_training.R\n")
+  cat("  Rscript analytics/scripts/06_model_evaluation.R\n")
   cat("  Rscript api/run_api.R\n")
 } else {
   cat(sprintf("%d package(s) are missing. Install them with:\n",
