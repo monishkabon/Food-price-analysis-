@@ -1,0 +1,24 @@
+STATISTICAL INFERENCE REPORT
+Food Price Volatility Analysis — IT3081 (2026-DS-12)
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+
+Q1: DO FOODS DIFFER IN PRICE INSTABILITY?
+  Kruskal-Wallis: chi2(1)=973.983, p=0.0000
+  Effect size (eta²): 0.6277
+  Conclusion: Significant food effect on price instability
+
+Q2: DO MARKETS DIFFER AFTER CONTROLLING FOR FOOD?
+  LRT: chi2(8)=2.562, p=0.9588
+  Marginal R²=0.3180 | Conditional R²=0.3180
+  Conclusion: No significant market effect detected after food control
+
+Q3: DOES RECENT VOLATILITY PREDICT LARGE MOVEMENTS?
+  OR=0.411 [0.183, 0.925], p=0.0317
+  Nagelkerke R²=0.0071
+  Conclusion: OR=0.411 [0.183,0.925] for rolling_volatility_3m; statistically significant predictor.
+
+LIMITATIONS
+  - Temporal autocorrelation within food-market series not fully accounted for.
+  - Random effects model uses market_id; smaller markets may be underpowered.
+  - Kruskal-Wallis treats observations as independent; future work should
+    use GEE or cluster-robust standard errors.
