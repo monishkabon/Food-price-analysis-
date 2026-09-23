@@ -29,12 +29,12 @@ OUTPUT_DATA_DIR <- file.path("analytics", "outputs", "data")
 dir.create(OUTPUT_DIR, recursive = TRUE, showWarnings = FALSE)
 dir.create(OUTPUT_DATA_DIR, recursive = TRUE, showWarnings = FALSE)
 
-# Candidate commodities (will be matched case-insensitively via partial match)
+# Candidate commodities (will be matched case-insensitively via exact match)
 CANDIDATE_FOODS <- c(
-  "rice - white",
+  "rice (white)",
   "lentils",
-  "onions - imported",
-  "potatoes - imported",
+  "onions (imported)",
+  "potatoes (imported)",
   "tomatoes"
 )
 
@@ -137,15 +137,13 @@ cat("\n4. Applying inclusion filters (Retail, LKR, KG, candidate foods) ...\n")
 raw <- raw %>%
   mutate(commodity_lower = tolower(trimws(commodity)))
 
-# Match candidate foods using partial string match
-food_pattern <- paste(tolower(CANDIDATE_FOODS), collapse = "|")
-
+# Match candidate foods exactly (case-insensitively)
 filtered <- raw %>%
   filter(
     tolower(trimws(pricetype)) == "retail",
     tolower(trimws(currency))  == "lkr",
     # tolower(trimws(unit))      == "kg", # Filter dropped as per PR discussion to retain more commodity data
-    str_detect(commodity_lower, food_pattern),
+    commodity_lower %in% tolower(CANDIDATE_FOODS),
     !is.na(price),
     price > 0
   )

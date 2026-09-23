@@ -3,19 +3,19 @@ Food Price Volatility Analysis — IT3081 (2026-DS-12)
 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 Q1: DO FOODS DIFFER IN PRICE INSTABILITY?
-  Kruskal-Wallis: chi2(1)=1138.859, p=0.0000
-  Effect size (eta²): 0.6293
+  Kruskal-Wallis: chi2(4)=2546.356, p=0.0000
+  Effect size (eta²): 0.5498
   Conclusion: Significant food effect on price instability
 
 Q2: DO MARKETS DIFFER AFTER CONTROLLING FOR FOOD?
-  LRT: chi2(8)=4.100, p=0.8479
-  Marginal R²=0.3349 | Conditional R²=0.3349
+  LRT: chi2(8)=3.026, p=0.9327
+  Marginal R²=0.3663 | Conditional R²=0.3663
   Conclusion: No significant market effect detected after food control
 
 Q3: DOES RECENT VOLATILITY PREDICT LARGE MOVEMENTS?
-  OR=0.996 [0.990, 1.002], p=0.1800
-  Nagelkerke R²=0.0025
-  Conclusion: OR=0.996 [0.990,1.002] for rolling_volatility_3m; not significant.
+  OR=0.992 [0.988, 0.997], p=0.0021
+  Nagelkerke R²=0.0040
+  Conclusion: OR=0.992 [0.988,0.997] for rolling_volatility_3m; statistically significant predictor.
 
 LIMITATIONS
   - Temporal autocorrelation within food-market series not fully accounted for.

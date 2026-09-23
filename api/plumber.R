@@ -262,9 +262,11 @@ function(req, res) {
       "Insufficient price history. Need at least 4 consecutive months."))
   }
 
-  # Build features using the canonical feature builder
+  # Build features using the canonical feature builder while preserving
+  # the original spike flag metadata used for downstream warnings.
   enriched <- build_features(series %>%
-                               select(commodity_id, market_id, date, price))
+                               select(commodity_id, market_id, date, price,
+                                      spike_flag, month_inserted))
 
   prep <- prepare_latest_row(enriched)
   if (!prep$ok) return(json_error(res, 422, prep$error))

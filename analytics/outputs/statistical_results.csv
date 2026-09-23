@@ -1,4 +1,4 @@
 question,test,statistic,df,p_value,effect_size,effect_type,conclusion
-Q1: Food effect on instability,Kruskal-Wallis,1138.8585,1,0,0.6293,Eta-squared (rank-based),Significant food effect on price instability
-Q2: Market effect after controlling for food,LRT (LME null vs market model),4.1005,8,0.847947,0.3349,Marginal R² (LME),No significant market effect detected after food control
-Q3: Recent volatility predicts large movements,Logistic regression LRT,1.7533,1,0.185462,0.0025,Nagelkerke pseudo-R²,"OR=0.996 [0.990,1.002] for rolling_volatility_3m; not significant."
+Q1: Food effect on instability,Kruskal-Wallis,2546.3563,4,0,0.5498,Eta-squared (rank-based),Significant food effect on price instability
+Q2: Market effect after controlling for food,LRT (LME null vs market model),3.0261,8,0.932707,0.3663,Marginal R² (LME),No significant market effect detected after food control
+Q3: Recent volatility predicts large movements,Logistic regression LRT,9.1883,1,0.002436,0.004,Nagelkerke pseudo-R²,"OR=0.992 [0.988,0.997] for rolling_volatility_3m; statistically significant predictor."

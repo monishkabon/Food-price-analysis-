@@ -10,10 +10,10 @@ export const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true' || true;
 // Mock data (used during frontend-only development)
 // ---------------------------------------------------------------------------
 const MOCK_FOODS = [
-  { id: 1, name: 'Rice - white' },
+  { id: 1, name: 'Rice (white)' },
   { id: 2, name: 'Lentils' },
-  { id: 3, name: 'Onions - imported' },
-  { id: 4, name: 'Potatoes - imported' },
+  { id: 3, name: 'Onions (imported)' },
+  { id: 4, name: 'Potatoes (imported)' },
   { id: 5, name: 'Tomatoes' },
 ];
 
