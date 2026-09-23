@@ -9,12 +9,14 @@ PROJ_ROOT <- normalizePath("..", mustWork = TRUE)
 
 find_asset <- function(paths) {
   for (p in paths) {
-    if (file.exists(p)) return(p)
+    if (file.exists(p)) {
+      return(p)
+    }
   }
   return(paths[1])
 }
 
-BUNDLE_PATH  <- find_asset(c(
+BUNDLE_PATH <- find_asset(c(
   file.path(PROJ_ROOT, "analytics", "outputs", "models", "model_bundle.rds"),
   file.path(PROJ_ROOT, "analytics", "outputs", "model_bundle.rds")
 ))
@@ -22,15 +24,15 @@ CLEANED_PATH <- find_asset(c(
   file.path(PROJ_ROOT, "analytics", "outputs", "data", "cleaned_food_prices.csv"),
   file.path(PROJ_ROOT, "analytics", "outputs", "cleaned_food_prices.csv")
 ))
-EVAL_PATH    <- find_asset(c(
+EVAL_PATH <- find_asset(c(
   file.path(PROJ_ROOT, "analytics", "outputs", "reports", "evaluation_results.csv"),
   file.path(PROJ_ROOT, "analytics", "outputs", "evaluation_results.csv")
 ))
-PFOOD_PATH   <- find_asset(c(
+PFOOD_PATH <- find_asset(c(
   file.path(PROJ_ROOT, "analytics", "outputs", "reports", "per_food_evaluation.csv"),
   file.path(PROJ_ROOT, "analytics", "outputs", "per_food_evaluation.csv")
 ))
-FEATURE_SRC  <- file.path(PROJ_ROOT, "analytics", "utils", "feature_builder.R")
+FEATURE_SRC <- file.path(PROJ_ROOT, "analytics", "utils", "feature_builder.R")
 
 suppressPackageStartupMessages({
   library(plumber)
@@ -48,22 +50,25 @@ source(file.path(PROJ_ROOT, "api", "middleware", "validators.R"))
 # ---------------------------------------------------------------------------
 # Load assets at startup (not per-request)
 # ---------------------------------------------------------------------------
-BUNDLE  <- NULL
-PRICES  <- NULL
+BUNDLE <- NULL
+PRICES <- NULL
 API_READY <- FALSE
 
 load_assets <- function() {
-  tryCatch({
-    BUNDLE  <<- readRDS(BUNDLE_PATH)
-    PRICES  <<- read_csv(CLEANED_PATH, show_col_types = FALSE) %>%
-                  mutate(date = as.Date(date))
-    API_READY <<- TRUE
-    message("[API] Assets loaded successfully. Version: ", BUNDLE$version)
-  }, error = function(e) {
-    message("[API] WARNING: Could not load assets — ", conditionMessage(e))
-    message("[API] Run the analytics pipeline first:")
-    message("[API]   Rscript analytics/run_pipeline.R")
-  })
+  tryCatch(
+    {
+      BUNDLE <<- readRDS(BUNDLE_PATH)
+      PRICES <<- read_csv(CLEANED_PATH, show_col_types = FALSE) %>%
+        mutate(date = as.Date(date))
+      API_READY <<- TRUE
+      message("[API] Assets loaded successfully. Version: ", BUNDLE$version)
+    },
+    error = function(e) {
+      message("[API] WARNING: Could not load assets — ", conditionMessage(e))
+      message("[API] Run the analytics pipeline first:")
+      message("[API]   Rscript analytics/run_pipeline.R")
+    }
+  )
 }
 
 load_assets()
@@ -73,7 +78,7 @@ load_assets()
 # ---------------------------------------------------------------------------
 #* @filter cors
 function(req, res) {
-  res$setHeader("Access-Control-Allow-Origin",  "*")
+  res$setHeader("Access-Control-Allow-Origin", "*")
   res$setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
   res$setHeader("Access-Control-Allow-Headers", "Content-Type")
   if (req$REQUEST_METHOD == "OPTIONS") {
@@ -91,11 +96,11 @@ function(req, res) {
 #* @serializer json
 function(res) {
   list(
-    status      = ifelse(API_READY, "ok", "degraded"),
-    api_ready   = API_READY,
+    status = ifelse(API_READY, "ok", "degraded"),
+    api_ready = API_READY,
     model_version = if (!is.null(BUNDLE)) BUNDLE$version else NULL,
-    data_cutoff   = if (!is.null(BUNDLE)) BUNDLE$data_cutoff else NULL,
-    timestamp   = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ")
+    data_cutoff = if (!is.null(BUNDLE)) BUNDLE$data_cutoff else NULL,
+    timestamp = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ")
   )
 }
 
@@ -106,7 +111,9 @@ function(res) {
 #* @tag data
 #* @serializer json
 function(res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready — run the analytics pipeline first."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready — run the analytics pipeline first."))
+  }
 
   foods <- PRICES %>%
     filter(!is.na(price)) %>%
@@ -125,10 +132,14 @@ function(res) {
 #* @tag data
 #* @serializer json
 function(commodity_id, res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
 
   cid <- suppressWarnings(as.integer(commodity_id))
-  if (is.na(cid)) return(json_error(res, 400, "commodity_id must be an integer."))
+  if (is.na(cid)) {
+    return(json_error(res, 400, "commodity_id must be an integer."))
+  }
   if (!cid %in% BUNDLE$known_commodity_ids) {
     return(json_error(res, 404, sprintf("commodity_id %d not found.", cid)))
   }
@@ -151,14 +162,20 @@ function(commodity_id, res) {
 #* @tag data
 #* @serializer json
 function(commodity_id, market_id, res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
 
   v <- validate_ids(commodity_id, market_id, BUNDLE)
-  if (!v$ok) return(json_error(res, v$status, v$error))
+  if (!v$ok) {
+    return(json_error(res, v$status, v$error))
+  }
 
   history <- PRICES %>%
-    filter(commodity_id == v$commodity_id, market_id == v$market_id,
-           !is.na(price)) %>%
+    filter(
+      commodity_id == v$commodity_id, market_id == v$market_id,
+      !is.na(price)
+    ) %>%
     select(date, price, monthly_change_pct, absolute_change_pct, spike_flag) %>%
     arrange(date) %>%
     mutate(
@@ -169,9 +186,13 @@ function(commodity_id, market_id, res) {
     )
 
   if (nrow(history) == 0) {
-    return(json_error(res, 404,
-      sprintf("No price history for commodity_id=%d, market_id=%d.",
-              v$commodity_id, v$market_id)))
+    return(json_error(
+      res, 404,
+      sprintf(
+        "No price history for commodity_id=%d, market_id=%d.",
+        v$commodity_id, v$market_id
+      )
+    ))
   }
 
   meta <- list(
@@ -198,23 +219,31 @@ function(commodity_id, market_id, res) {
 #* @tag data
 #* @serializer json
 function(commodity_id, market_id, res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
 
   v <- validate_ids(commodity_id, market_id, BUNDLE)
-  if (!v$ok) return(json_error(res, v$status, v$error))
+  if (!v$ok) {
+    return(json_error(res, v$status, v$error))
+  }
 
   series <- PRICES %>%
-    filter(commodity_id == v$commodity_id, market_id == v$market_id,
-           !is.na(price)) %>%
+    filter(
+      commodity_id == v$commodity_id, market_id == v$market_id,
+      !is.na(price)
+    ) %>%
     arrange(date)
 
   if (nrow(series) < 3) {
-    return(json_error(res, 422,
-      "Insufficient data to compute rolling volatility (need ≥ 3 months)."))
+    return(json_error(
+      res, 422,
+      "Insufficient data to compute rolling volatility (need ≥ 3 months)."
+    ))
   }
 
   enriched <- build_features(series %>%
-                               select(commodity_id, market_id, date, price))
+    select(commodity_id, market_id, date, price))
 
   vol_series <- enriched %>%
     filter(!is.na(rolling_volatility_3m)) %>%
@@ -226,8 +255,10 @@ function(commodity_id, market_id, res) {
     )
 
   json_ok(list(
-    meta   = list(commodity_id = v$commodity_id, market_id = v$market_id,
-                  window_months = 3, data_cutoff = BUNDLE$data_cutoff),
+    meta = list(
+      commodity_id = v$commodity_id, market_id = v$market_id,
+      window_months = 3, data_cutoff = BUNDLE$data_cutoff
+    ),
     series = vol_series
   ))
 }
@@ -240,7 +271,9 @@ function(commodity_id, market_id, res) {
 #* @tag predictions
 #* @serializer json
 function(req, res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
 
   # Parse body
   body <- tryCatch(jsonlite::fromJSON(req$postBody), error = function(e) NULL)
@@ -249,25 +282,37 @@ function(req, res) {
   }
 
   v <- validate_ids(body$commodity_id, body$market_id, BUNDLE)
-  if (!v$ok) return(json_error(res, v$status, v$error))
+  if (!v$ok) {
+    return(json_error(res, v$status, v$error))
+  }
 
   # Retrieve latest history for this series
   series <- PRICES %>%
-    filter(commodity_id == v$commodity_id, market_id == v$market_id,
-           !is.na(price)) %>%
+    filter(
+      commodity_id == v$commodity_id, market_id == v$market_id,
+      !is.na(price)
+    ) %>%
     arrange(date)
 
   if (nrow(series) < 4) {
-    return(json_error(res, 422,
-      "Insufficient price history. Need at least 4 consecutive months."))
+    return(json_error(
+      res, 422,
+      "Insufficient price history. Need at least 4 consecutive months."
+    ))
   }
 
-  # Build features using the canonical feature builder
+  # Build features using the canonical feature builder while preserving
+  # the original spike flag metadata used for downstream warnings.
   enriched <- build_features(series %>%
-                               select(commodity_id, market_id, date, price))
+    select(
+      commodity_id, market_id, date, price,
+      spike_flag, month_inserted
+    ))
 
   prep <- prepare_latest_row(enriched)
-  if (!prep$ok) return(json_error(res, 422, prep$error))
+  if (!prep$ok) {
+    return(json_error(res, 422, prep$error))
+  }
 
   latest_row <- prep$row
 
@@ -283,8 +328,10 @@ function(req, res) {
   latest_imputed <- impute_fn_api(latest_row)
 
   X_pred <- tryCatch(
-    predict(BUNDLE$preproc_caret,
-            latest_imputed %>% select(all_of(BUNDLE$predictors))) %>% as.matrix(),
+    predict(
+      BUNDLE$preproc_caret,
+      latest_imputed %>% select(all_of(BUNDLE$predictors))
+    ) %>% as.matrix(),
     error = function(e) NULL
   )
   if (is.null(X_pred)) {
@@ -296,8 +343,10 @@ function(req, res) {
 
   # Generate probability prediction (Logistic)
   logit_prob <- tryCatch(
-    predict(BUNDLE$logit_model, newdata = as.data.frame(X_pred),
-            type = "response"),
+    predict(BUNDLE$logit_model,
+      newdata = as.data.frame(X_pred),
+      type = "response"
+    ),
     error = function(e) NA_real_
   )
 
@@ -312,15 +361,15 @@ function(req, res) {
 
   json_ok(
     list(
-      commodity_id                = v$commodity_id,
-      market_id                   = v$market_id,
-      last_observed_month         = prep$last_observed_month,
-      forecast_month              = prep$forecast_month,
+      commodity_id = v$commodity_id,
+      market_id = v$market_id,
+      last_observed_month = prep$last_observed_month,
+      forecast_month = prep$forecast_month,
       expected_absolute_change_pct = round(ridge_pred, 4),
-      large_change_probability    = round(as.numeric(logit_prob), 4),
-      large_change_threshold_pct  = BUNDLE$large_change_threshold_pct,
-      model_version               = BUNDLE$version,
-      data_cutoff                 = BUNDLE$data_cutoff,
+      large_change_probability = round(as.numeric(logit_prob), 4),
+      large_change_threshold_pct = BUNDLE$large_change_threshold_pct,
+      model_version = BUNDLE$version,
+      data_cutoff = BUNDLE$data_cutoff,
       disclaimer = paste(
         "This prediction estimates movement size (up or down), not direction.",
         "It is based on historical patterns and not a live market signal.",
@@ -338,21 +387,25 @@ function(req, res) {
 #* @tag models
 #* @serializer json
 function(res) {
-  if (!API_READY) return(json_error(res, 503, "API not ready."))
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
   if (is.null(BUNDLE$test_performance)) {
-    return(json_error(res, 404,
-      "Evaluation results not yet available. Run analytics/scripts/06_model_evaluation.R."))
+    return(json_error(
+      res, 404,
+      "Evaluation results not yet available. Run analytics/scripts/06_model_evaluation.R."
+    ))
   }
 
   perf <- BUNDLE$test_performance
 
   json_ok(list(
-    continuous       = perf$continuous,
-    binary           = perf$binary,
-    per_commodity    = perf$per_commodity,
-    test_period      = perf$test_period,
-    n_test           = perf$n_test,
-    model_version    = BUNDLE$version,
+    continuous = perf$continuous,
+    binary = perf$binary,
+    per_commodity = perf$per_commodity,
+    test_period = perf$test_period,
+    n_test = perf$n_test,
+    model_version = BUNDLE$version,
     large_change_threshold_pct = BUNDLE$large_change_threshold_pct,
     limitations = c(
       "Models trained on historical data up to December 2024.",
@@ -371,15 +424,15 @@ function(res) {
 #* @serializer json
 function(res) {
   list(
-    source       = "WFP Food Prices — Sri Lanka (Humanitarian Data Exchange)",
-    source_url   = "https://data.humdata.org/dataset/wfp-food-prices-for-sri-lanka",
-    currency     = "LKR",
-    unit         = "KG",
-    price_type   = "Retail",
-    data_cutoff  = if (!is.null(BUNDLE)) BUNDLE$data_cutoff else "unknown",
+    source = "WFP Food Prices — Sri Lanka (Humanitarian Data Exchange)",
+    source_url = "https://data.humdata.org/dataset/wfp-food-prices-for-sri-lanka",
+    currency = "LKR",
+    unit = "KG",
+    price_type = "Retail",
+    data_cutoff = if (!is.null(BUNDLE)) BUNDLE$data_cutoff else "unknown",
     model_version = if (!is.null(BUNDLE)) BUNDLE$version else "unknown",
-    api_version  = "1.0.0",
-    disclaimer   = paste(
+    api_version = "1.0.0",
+    disclaimer = paste(
       "This is a historical prototype built on data ending September 2025.",
       "It is not a live forecasting service."
     )

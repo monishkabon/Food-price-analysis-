@@ -1,4 +1,6 @@
 commodity_id,commodity,market_id,market,admin1,admin2,first_month,last_month,total_months,observed_months,missing_months,pct_coverage,n_spikes,is_eligible
+133,Rice (white),368,Colombo City,Western,Colombo,2006-07-01,2025-09-01,231,220,11,95.2,0,TRUE
+323,Onions (imported),368,Colombo City,Western,Colombo,2021-09-01,2025-09-01,49,38,11,77.6,1,TRUE
 108,Lentils,360,Ampara,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
 108,Lentils,366,Trincomalee,Eastern,Trincomalee,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
 108,Lentils,1889,Monaragala,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
@@ -32,11 +34,61 @@ commodity_id,commodity,market_id,market,admin1,admin2,first_month,last_month,tot
 114,Tomatoes,7837,Dehiattakandiya,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,10,TRUE
 114,Tomatoes,7839,Keppetipola (DEC},Uva,Badulla,2023-06-01,2025-09-01,28,28,0,100,6,TRUE
 114,Tomatoes,7841,Meegoda(DEC),Western,Colombo,2023-06-01,2025-09-01,28,28,0,100,7,TRUE
+133,Rice (white),366,Trincomalee,Eastern,Trincomalee,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),1910,Galle,Southern,Galle,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),1912,Kandy,Central,Kandy,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),1913,Kegalle,Sabaragamuwa,Kegalle,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),1915,Matale,Central,Matale,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),5287,Dammbagalla,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+133,Rice (white),7837,Dehiattakandiya,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+323,Onions (imported),360,Ampara,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),366,Trincomalee,Eastern,Trincomalee,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),367,Vavuniya,Northern,Vavuniya,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1889,Monaragala,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1906,Anuradhapura,North Central,Anuradhapura,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1907,Badulla,Uva,Badulla,2023-06-01,2025-09-01,28,28,0,100,2,TRUE
+323,Onions (imported),1910,Galle,Southern,Galle,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1912,Kandy,Central,Kandy,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+323,Onions (imported),1913,Kegalle,Sabaragamuwa,Kegalle,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1915,Matale,Central,Matale,2023-06-01,2025-09-01,28,28,0,100,2,TRUE
+323,Onions (imported),1916,Matara,Southern,Matara,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),1917,Nuwara Eliya,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),5287,Dammbagalla,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),7833,Embilipitiya,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+323,Onions (imported),7837,Dehiattakandiya,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,2,TRUE
+323,Onions (imported),7839,Keppetipola (DEC},Uva,Badulla,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+323,Onions (imported),7841,Meegoda(DEC),Western,Colombo,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+688,Potatoes (imported),360,Ampara,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,1,TRUE
+688,Potatoes (imported),366,Trincomalee,Eastern,Trincomalee,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),367,Vavuniya,Northern,Vavuniya,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),368,Colombo City,Western,Colombo,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1889,Monaragala,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1906,Anuradhapura,North Central,Anuradhapura,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1907,Badulla,Uva,Badulla,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1910,Galle,Southern,Galle,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1915,Matale,Central,Matale,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1916,Matara,Southern,Matara,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),1917,Nuwara Eliya,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),5287,Dammbagalla,Uva,Moneragala,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),7833,Embilipitiya,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),7837,Dehiattakandiya,Eastern,Ampara,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),7839,Keppetipola (DEC},Uva,Badulla,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
+688,Potatoes (imported),7841,Meegoda(DEC),Western,Colombo,2023-06-01,2025-09-01,28,28,0,100,0,TRUE
 108,Lentils,1911,Kalutara,Western,Kalutara,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
 108,Lentils,1918,Puttalam,North Western,Puttalam,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
 108,Lentils,5346,Thambuttegama,North Central,Anuradhapura,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
 114,Tomatoes,1911,Kalutara,Western,Kalutara,2023-06-01,2025-09-01,28,27,1,96.4,8,TRUE
 114,Tomatoes,5346,Thambuttegama,North Central,Anuradhapura,2023-06-01,2025-09-01,28,27,1,96.4,6,TRUE
+133,Rice (white),1906,Anuradhapura,North Central,Anuradhapura,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+133,Rice (white),1911,Kalutara,Western,Kalutara,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+133,Rice (white),7833,Embilipitiya,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+133,Rice (white),7839,Keppetipola (DEC},Uva,Badulla,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+323,Onions (imported),1911,Kalutara,Western,Kalutara,2023-06-01,2025-09-01,28,27,1,96.4,1,TRUE
+323,Onions (imported),1918,Puttalam,North Western,Puttalam,2023-06-01,2025-09-01,28,27,1,96.4,1,TRUE
+323,Onions (imported),5346,Thambuttegama,North Central,Anuradhapura,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+688,Potatoes (imported),1911,Kalutara,Western,Kalutara,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+688,Potatoes (imported),1918,Puttalam,North Western,Puttalam,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
+688,Potatoes (imported),5346,Thambuttegama,North Central,Anuradhapura,2023-06-01,2025-09-01,28,27,1,96.4,0,TRUE
 108,Lentils,362,Jaffna,Northern,Jaffna,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
 108,Lentils,363,Kilinochchi,Northern,Kilinochchi,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
 108,Lentils,1888,Polonnaruwa,North Central,Polonnaruwa,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
@@ -51,8 +103,33 @@ commodity_id,commodity,market_id,market,admin1,admin2,first_month,last_month,tot
 114,Tomatoes,1918,Puttalam,North Western,Puttalam,2023-06-01,2025-09-01,28,26,2,92.9,5,TRUE
 114,Tomatoes,7836,Bandarawela,Uva,Badulla,2023-06-01,2025-09-01,28,26,2,92.9,5,TRUE
 114,Tomatoes,7840,Hanguranketha,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,26,2,92.9,10,TRUE
+133,Rice (white),363,Kilinochchi,Northern,Kilinochchi,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+133,Rice (white),1888,Polonnaruwa,North Central,Polonnaruwa,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+133,Rice (white),1918,Puttalam,North Western,Puttalam,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+133,Rice (white),1919,Rathnapura,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+323,Onions (imported),362,Jaffna,Northern,Jaffna,2023-06-01,2025-09-01,28,26,2,92.9,2,TRUE
+323,Onions (imported),363,Kilinochchi,Northern,Kilinochchi,2023-06-01,2025-09-01,28,26,2,92.9,1,TRUE
+323,Onions (imported),1888,Polonnaruwa,North Central,Polonnaruwa,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+323,Onions (imported),1908,Hambantota,Southern,Hambantota,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+323,Onions (imported),1914,Kurunegala,North Western,Kurunegala,2023-06-01,2025-09-01,28,26,2,92.9,1,TRUE
+323,Onions (imported),1919,Rathnapura,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,26,2,92.9,1,TRUE
+323,Onions (imported),7836,Bandarawela,Uva,Badulla,2023-06-01,2025-09-01,28,26,2,92.9,1,TRUE
+323,Onions (imported),7840,Hanguranketha,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,26,2,92.9,1,TRUE
+688,Potatoes (imported),362,Jaffna,Northern,Jaffna,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),363,Kilinochchi,Northern,Kilinochchi,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),1888,Polonnaruwa,North Central,Polonnaruwa,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),1908,Hambantota,Southern,Hambantota,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),1919,Rathnapura,Sabaragamuwa,Ratnapura,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),7836,Bandarawela,Uva,Badulla,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
+688,Potatoes (imported),7840,Hanguranketha,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,26,2,92.9,0,TRUE
 108,Lentils,7842,Nikaweratiya,North Western,Kurunegala,2023-06-01,2025-09-01,28,25,3,89.3,0,TRUE
 114,Tomatoes,7842,Nikaweratiya,North Western,Kurunegala,2023-06-01,2025-09-01,28,25,3,89.3,4,TRUE
+133,Rice (white),367,Vavuniya,Northern,Vavuniya,2023-07-01,2025-09-01,27,25,2,92.6,0,TRUE
+133,Rice (white),1916,Matara,Southern,Matara,2023-06-01,2025-09-01,28,25,3,89.3,0,TRUE
+133,Rice (white),5346,Thambuttegama,North Central,Anuradhapura,2023-06-01,2025-09-01,28,25,3,89.3,0,TRUE
+133,Rice (white),7841,Meegoda(DEC),Western,Colombo,2023-06-01,2025-09-01,28,25,3,89.3,0,TRUE
+323,Onions (imported),7842,Nikaweratiya,North Western,Kurunegala,2023-06-01,2025-09-01,28,25,3,89.3,1,TRUE
+688,Potatoes (imported),7842,Nikaweratiya,North Western,Kurunegala,2023-06-01,2025-09-01,28,25,3,89.3,0,TRUE
 108,Lentils,361,Batticaloa,Eastern,Batticaloa,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
 108,Lentils,364,Mannar,Northern,Mannar,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
 108,Lentils,1909,Gampaha,Western,Gampaha,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
@@ -63,16 +140,53 @@ commodity_id,commodity,market_id,market,admin1,admin2,first_month,last_month,tot
 114,Tomatoes,1909,Gampaha,Western,Gampaha,2023-06-01,2025-09-01,28,24,4,85.7,2,TRUE
 114,Tomatoes,5287,Dammbagalla,Uva,Moneragala,2023-06-01,2025-09-01,28,24,4,85.7,4,TRUE
 114,Tomatoes,7834,Tissamaharama,Southern,Hambantota,2023-06-01,2025-09-01,28,24,4,85.7,9,TRUE
+133,Rice (white),1908,Hambantota,Southern,Hambantota,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+133,Rice (white),7842,Nikaweratiya,North Western,Kurunegala,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+323,Onions (imported),361,Batticaloa,Eastern,Batticaloa,2023-06-01,2025-09-01,28,24,4,85.7,1,TRUE
+323,Onions (imported),364,Mannar,Northern,Mannar,2023-06-01,2025-09-01,28,24,4,85.7,1,TRUE
+323,Onions (imported),1909,Gampaha,Western,Gampaha,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+323,Onions (imported),7834,Tissamaharama,Southern,Hambantota,2023-06-01,2025-09-01,28,24,4,85.7,1,TRUE
+688,Potatoes (imported),361,Batticaloa,Eastern,Batticaloa,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+688,Potatoes (imported),364,Mannar,Northern,Mannar,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+688,Potatoes (imported),1909,Gampaha,Western,Gampaha,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
+688,Potatoes (imported),7834,Tissamaharama,Southern,Hambantota,2023-06-01,2025-09-01,28,24,4,85.7,0,TRUE
 108,Lentils,367,Vavuniya,Northern,Vavuniya,2023-06-01,2025-09-01,28,23,5,82.1,0,TRUE
 108,Lentils,368,Colombo City,Western,Colombo,2023-06-01,2025-09-01,28,23,5,82.1,0,TRUE
 108,Lentils,7835,Galenbindunuwewa,North Central,Anuradhapura,2023-06-01,2025-09-01,28,23,5,82.1,0,TRUE
 114,Tomatoes,7835,Galenbindunuwewa,North Central,Anuradhapura,2023-06-01,2025-09-01,28,23,5,82.1,4,TRUE
+133,Rice (white),364,Mannar,Northern,Mannar,2023-06-01,2025-09-01,28,23,5,82.1,0,TRUE
+133,Rice (white),1889,Monaragala,Uva,Moneragala,2023-06-01,2025-05-01,24,23,1,95.8,0,TRUE
+133,Rice (white),1914,Kurunegala,North Western,Kurunegala,2023-06-01,2025-06-01,25,23,2,92,0,TRUE
+323,Onions (imported),7835,Galenbindunuwewa,North Central,Anuradhapura,2023-06-01,2025-09-01,28,23,5,82.1,1,TRUE
+688,Potatoes (imported),7835,Galenbindunuwewa,North Central,Anuradhapura,2023-06-01,2025-09-01,28,23,5,82.1,0,TRUE
+133,Rice (white),361,Batticaloa,Eastern,Batticaloa,2023-06-01,2025-09-01,28,22,6,78.6,0,TRUE
+133,Rice (white),362,Jaffna,Northern,Jaffna,2023-09-01,2025-09-01,25,22,3,88,0,TRUE
 108,Lentils,7843,Mullativu,Northern,Mullattivu,2023-06-01,2025-09-01,28,21,7,75,0,TRUE
 114,Tomatoes,7843,Mullativu,Northern,Mullattivu,2023-06-01,2025-09-01,28,21,7,75,4,TRUE
+133,Rice (white),1909,Gampaha,Western,Gampaha,2023-06-01,2025-07-01,26,21,5,80.8,0,TRUE
+133,Rice (white),7843,Mullativu,Northern,Mullattivu,2023-06-01,2025-09-01,28,21,7,75,0,TRUE
+323,Onions (imported),7843,Mullativu,Northern,Mullattivu,2023-06-01,2025-09-01,28,21,7,75,0,TRUE
+688,Potatoes (imported),1912,Kandy,Central,Kandy,2023-06-01,2025-09-01,28,21,7,75,0,TRUE
+688,Potatoes (imported),7843,Mullativu,Northern,Mullattivu,2023-06-01,2025-09-01,28,21,7,75,0,TRUE
 114,Tomatoes,363,Kilinochchi,Northern,Kilinochchi,2023-06-01,2025-09-01,28,20,8,71.4,2,TRUE
+133,Rice (white),7835,Galenbindunuwewa,North Central,Anuradhapura,2023-06-01,2025-09-01,28,20,8,71.4,0,TRUE
+133,Rice (white),7834,Tissamaharama,Southern,Hambantota,2023-10-01,2025-09-01,24,17,7,70.8,0,TRUE
+133,Rice (white),7840,Hanguranketha,Central,Nuwara Eliya,2023-06-01,2025-09-01,28,17,11,60.7,0,TRUE
+133,Rice (white),360,Ampara,Eastern,Ampara,2023-06-01,2025-08-01,27,16,11,59.3,0,TRUE
+133,Rice (white),1917,Nuwara Eliya,Central,Nuwara Eliya,2023-07-01,2025-09-01,27,16,11,59.3,0,TRUE
+688,Potatoes (imported),1913,Kegalle,Sabaragamuwa,Kegalle,2023-08-01,2025-09-01,26,16,10,61.5,0,TRUE
+688,Potatoes (imported),1914,Kurunegala,North Western,Kurunegala,2023-07-01,2025-09-01,27,16,11,59.3,0,TRUE
 114,Tomatoes,1919,Rathnapura,Sabaragamuwa,Ratnapura,2023-08-01,2025-09-01,26,15,11,57.7,1,TRUE
+133,Rice (white),1907,Badulla,Uva,Badulla,2023-10-01,2025-03-01,18,12,6,66.7,0,TRUE
 108,Lentils,5885,Economic Centre - Peliyagoda,Western,Gampaha,2022-07-01,2023-05-01,11,11,0,100,0,FALSE
 114,Tomatoes,5885,Economic Centre - Peliyagoda,Western,Gampaha,2022-07-01,2023-05-01,11,11,0,100,2,FALSE
+323,Onions (imported),5885,Economic Centre - Peliyagoda,Western,Gampaha,2022-07-01,2023-05-01,11,11,0,100,0,FALSE
+688,Potatoes (imported),5885,Economic Centre - Peliyagoda,Western,Gampaha,2022-07-01,2023-05-01,11,10,1,90.9,0,FALSE
 108,Lentils,2786,Economic Centre-Pettah,Western,Colombo,2020-01-01,2020-10-01,10,8,2,80,0,FALSE
+133,Rice (white),2786,Economic Centre-Pettah,Western,Colombo,2020-01-01,2020-10-01,10,8,2,80,0,FALSE
+133,Rice (white),7836,Bandarawela,Uva,Badulla,2024-12-01,2025-09-01,10,8,2,80,0,FALSE
+323,Onions (imported),2786,Economic Centre-Pettah,Western,Colombo,2020-01-01,2020-10-01,10,8,2,80,1,FALSE
+688,Potatoes (imported),2786,Economic Centre-Pettah,Western,Colombo,2020-01-01,2020-10-01,10,8,2,80,0,FALSE
 114,Tomatoes,2786,Economic Centre-Pettah,Western,Colombo,2020-01-01,2020-10-01,10,5,5,50,1,FALSE
 114,Tomatoes,2788,Economic Centre-Dambulla,Central,Matale,2020-04-01,2020-10-01,7,5,2,71.4,1,FALSE
+688,Potatoes (imported),2788,Economic Centre-Dambulla,Central,Matale,2020-01-01,2020-05-01,5,4,1,80,0,FALSE
