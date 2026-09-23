@@ -144,7 +144,7 @@ filtered <- raw %>%
   filter(
     tolower(trimws(pricetype)) == "retail",
     tolower(trimws(currency))  == "lkr",
-    tolower(trimws(unit))      == "kg",
+    # tolower(trimws(unit))      == "kg", # Filter dropped as per PR discussion to retain more commodity data
     str_detect(commodity_lower, food_pattern),
     !is.na(price),
     price > 0
