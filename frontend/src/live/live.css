@@ -1,0 +1,12 @@
+.live-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 720px; }
+.live-caption { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.live-note { margin: 16px 0; }
+.live-section { margin-top: 22px; }
+.live-history-table { max-height: 480px; overflow: auto; }
+.live-history-table th { position: sticky; top: 0; background: #f2f6f4; }
+.live-history-table td:first-child { white-space: nowrap; }
+.main footer > span { margin-left: 0.35em; }
+.forecast-form .filter-band { padding: 0; border: 0; box-shadow: none; }
+.forecast-form .live-filters { grid-template-columns: minmax(0, 1fr); }
+.live-filters select { width: 100%; min-width: 0; }
+@media (max-width: 460px) { .live-filters { grid-template-columns: minmax(0, 1fr); } }
