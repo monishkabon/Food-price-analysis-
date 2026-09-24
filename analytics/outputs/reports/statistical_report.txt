@@ -1,24 +1,153 @@
-STATISTICAL INFERENCE REPORT
-Food Price Volatility Analysis — IT3081 (2026-DS-12)
-= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+================================================================================
+                       STATISTICAL INFERENCE COMPREHENSIVE REPORT               
+             Applied Hypothesis Testing & Organizational Decision Insights       
+                       Food Price Volatility Project (IT3081)                   
+================================================================================
 
-Q1: DO FOODS DIFFER IN PRICE INSTABILITY?
-  Kruskal-Wallis: chi2(4)=2546.356, p=0.0000
-  Effect size (eta²): 0.5498
-  Conclusion: Significant food effect on price instability
+This report presents formal hypothesis testing for food price volatility across Sri Lankan
+retail markets, addressing comparison of means, proportions, variances, ANOVA, and predictive models.
+Dataset: 4629 validated monthly observations across 5 commodities.
 
-Q2: DO MARKETS DIFFER AFTER CONTROLLING FOR FOOD?
-  LRT: chi2(8)=3.026, p=0.9327
-  Marginal R²=0.3663 | Conditional R²=0.3663
-  Conclusion: No significant market effect detected after food control
+--------------------------------------------------------------------------------
+TEST 1: COMPARISON OF MEANS (Welch's Two-Sample t-test)
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: mu_tomatoes - mu_rice = 0
+    Alternative (H1): H1: mu_tomatoes - mu_rice != 0
 
-Q3: DOES RECENT VOLATILITY PREDICT LARGE MOVEMENTS?
-  OR=0.992 [0.988, 0.997], p=0.0021
-  Nagelkerke R²=0.0040
-  Conclusion: OR=0.992 [0.988,0.997] for rolling_volatility_3m; statistically significant predictor.
+  Results:
+    Test Statistic  : 29.7276
+    Degrees of Freedom: 905.7
+    p-value         : 4.5038e-136
+    Effect Size     : 1.4392 (Cohen's d)
 
-LIMITATIONS
-  - Temporal autocorrelation within food-market series not fully accounted for.
-  - Random effects model uses market_id; smaller markets may be underpowered.
-  - Kruskal-Wallis treats observations as independent; future work should
-    use GEE or cluster-robust standard errors.
+  Conclusion:
+    Significant mean difference (diff=37.22%, t=29.73, p<0.001)
+
+  Practical Organizational Implications:
+    Use long-term fixed contracts for staples; use dynamic pricing collars and 25% budget buffers for perishables.
+
+--------------------------------------------------------------------------------
+TEST 2: COMPARISON OF PROPORTIONS (Two-Sample Test of Proportions (Chi-Square))
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: p_tomatoes - p_rice = 0
+    Alternative (H1): H1: p_tomatoes - p_rice != 0
+
+  Results:
+    Test Statistic  : 1222.0205
+    Degrees of Freedom: 1
+    p-value         : 9.9923e-268
+    Effect Size     : 35.0841 (Relative Risk (RR))
+
+  Conclusion:
+    Significant difference in shock probability (RR=35.08, X2=1222.0, p<0.001)
+
+  Practical Organizational Implications:
+    Maintain physical buffer stocks only for low-shock staples; use inflation-indexed cash vouchers for produce.
+
+--------------------------------------------------------------------------------
+TEST 3: COMPARISON OF VARIANCES (Fligner-Killeen & Two-Sample F-test)
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: sigma_1^2 = ... = sigma_5^2
+    Alternative (H1): H1: Variances differ across commodities
+
+  Results:
+    Test Statistic  : 2359.5969
+    Degrees of Freedom: 4
+    p-value         : 0.0000e+00
+    Effect Size     : 185.9528 (Variance Ratio (Tomatoes / Rice))
+
+  Conclusion:
+    Severe variance heteroscedasticity detected (Fligner X2=2359.6, F-ratio=185.95, p<0.001)
+
+  Practical Organizational Implications:
+    Establish commodity-specific Value-at-Risk reserves; reject uniform volatility assumptions across food basket.
+
+--------------------------------------------------------------------------------
+TEST 4: ANOVA (One-Way ANOVA & Post-Hoc Tukey HSD)
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: mu_1 = mu_2 = ... = mu_5
+    Alternative (H1): H1: At least one group mean differs
+
+  Results:
+    Test Statistic  : 666.7817
+    Degrees of Freedom: 4
+    p-value         : 0.0000e+00
+    Effect Size     : 0.3658 (Eta-squared (eta^2))
+
+  Conclusion:
+    Decisive commodity effect on mean instability (F=666.8, eta2=0.366, p<0.001)
+
+  Practical Organizational Implications:
+    Establish three-tier supply procurement: weekly agile sourcing for Tier 1 vs annual volume contracts for Tier 3.
+
+--------------------------------------------------------------------------------
+TEST 5: NON-PARAMETRIC GROUP COMPARISON (Kruskal-Wallis Rank Sum Test)
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: Median distributions identical across foods
+    Alternative (H1): H1: At least one commodity distribution differs
+
+  Results:
+    Test Statistic  : 2546.3563
+    Degrees of Freedom: 4
+    p-value         : 0.0000e+00
+    Effect Size     : 0.5498 (Eta-squared (rank-based))
+
+  Conclusion:
+    Significant food effect on price instability ranks (p<0.001)
+
+  Practical Organizational Implications:
+    Institutional food budgets must structure category-specific purchasing guidelines.
+
+--------------------------------------------------------------------------------
+TEST 6: MIXED-EFFECTS MODEL COMPARISON (Incremental F-test (Food vs Regional Market Model))
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: Regional markets contribute zero additional variance
+    Alternative (H1): H1: Regional markets explain significant variance
+
+  Results:
+    Test Statistic  : 0.3773
+    Degrees of Freedom: 8
+    p-value         : 9.3312e-01
+    Effect Size     : 0.3658 (Marginal R^2)
+
+  Conclusion:
+    No significant market effect after food control
+
+  Practical Organizational Implications:
+    Centralize procurement nationally; regional price variation is secondary to national commodity shocks.
+
+--------------------------------------------------------------------------------
+TEST 7: LOGISTIC VOLATILITY PREDICTION (Logistic Regression & LRT)
+--------------------------------------------------------------------------------
+  Hypotheses:
+    Null (H0)       : H0: Rolling volatility does not predict price shocks (OR = 1)
+    Alternative (H1): H1: Rolling volatility predicts price shocks (OR != 1)
+
+  Results:
+    Test Statistic  : 9.1883
+    Degrees of Freedom: 1
+    p-value         : 2.4357e-03
+    Effect Size     : 0.004 (Nagelkerke pseudo-R^2)
+
+  Conclusion:
+    Statistically significant predictor (OR=0.992, p<0.01)
+
+  Practical Organizational Implications:
+    Calibrate early-warning alert thresholds primarily using commodity risk tiers rather than trailing volatility.
+
+================================================================================
+SUMMARY OF METHODOLOGICAL LIMITATIONS
+================================================================================
+1. Temporal Autocorrelation: While clustered mixed models account for market-level
+   random intercepts, residual time series dependence across months may still
+   slightly compress standard errors.
+2. Extreme Shock Events: Macroeconomic currency devaluations in 2022 produced
+   structural price breaks; robust non-parametric tests (Fligner-Killeen, Kruskal-Wallis)
+   and Welch-adjusted tests were incorporated to ensure validity under heteroscedasticity.
+================================================================================
