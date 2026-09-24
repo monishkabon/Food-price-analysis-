@@ -37,7 +37,7 @@ df <- read_csv(MODEL_FILE, show_col_types = FALSE) %>%
 
 PREDICTORS  <- get_predictor_names()
 THRESHOLD   <- 10   # % — large change threshold
-MODEL_VER   <- "1.0.0"
+MODEL_VER   <- "1.1.0"
 DATA_CUTOFF <- "2025-09-01"
 
 # ---------------------------------------------------------------------------
@@ -134,9 +134,44 @@ ridge_mae      <- mean(abs(y_val_cont - ridge_val_pred), na.rm = TRUE)
 ridge_rmse     <- sqrt(mean((y_val_cont - ridge_val_pred)^2, na.rm = TRUE))
 cat(sprintf("  Ridge     — Val MAE: %.4f | RMSE: %.4f | lambda=%.4f\n",
             ridge_mae, ridge_rmse, ridge_lambda))
+# ---------------------------------------------------------------------------
+# 6. Model D — LASSO Regression (feature-selection regularisation)
+# ---------------------------------------------------------------------------
+cat("6. Training LASSO Regression ...\n")
+
+set.seed(42)
+lasso_cv <- cv.glmnet(
+  X_train,
+  y_train_cont,
+  alpha = 1,      # alpha = 1 means LASSO
+  nfolds = 5
+)
+
+# lambda.1se gives a simpler model and reduces overfitting risk.
+lasso_lambda <- lasso_cv$lambda.1se
+
+lasso_model <- glmnet(
+  X_train,
+  y_train_cont,
+  alpha = 1,
+  lambda = lasso_lambda
+)
+
+lasso_val_pred <- pmax(
+  as.vector(predict(lasso_model, newx = X_val)),
+  0
+)
+
+lasso_mae  <- mean(abs(y_val_cont - lasso_val_pred), na.rm = TRUE)
+lasso_rmse <- sqrt(mean((y_val_cont - lasso_val_pred)^2, na.rm = TRUE))
+
+cat(sprintf(
+  "  LASSO     — Val MAE: %.4f | RMSE: %.4f | lambda=%.4f\n",
+  lasso_mae, lasso_rmse, lasso_lambda
+))
 
 # ---------------------------------------------------------------------------
-# 6. Model D — Logistic Regression (binary: large change or not)
+# 6. Model E— Logistic Regression (binary: large change or not)
 # ---------------------------------------------------------------------------
 cat("6. Training Logistic Regression ...\n")
 
@@ -156,9 +191,9 @@ cat(sprintf("  Logit     — Brier score: %.4f\n", brier_score))
 cat("\n7. Model selection ...\n")
 
 val_results <- tibble(
-  model       = c("Baseline", "MLR", "Ridge"),
-  val_mae     = c(baseline_mae, mlr_mae, ridge_mae),
-  val_rmse    = c(baseline_rmse, mlr_rmse, ridge_rmse)
+  model    = c("Baseline", "MLR", "Ridge", "LASSO"),
+  val_mae  = c(baseline_mae, mlr_mae, ridge_mae, lasso_mae),
+  val_rmse = c(baseline_rmse, mlr_rmse, ridge_rmse, lasso_rmse)
 )
 print(val_results)
 
@@ -187,6 +222,8 @@ model_bundle <- list(
   mlr_model       = mlr_model,
   ridge_model     = ridge_model,
   ridge_lambda    = ridge_lambda,
+  lasso_model     = lasso_model,
+  lasso_lambda    = lasso_lambda,
   logit_model     = logit_model,
   best_continuous = best_continuous,
 
@@ -218,10 +255,22 @@ bundle_check_path <- file.path(OUTPUT_MODELS_DIR, "model_bundle.rds")
 b2 <- readRDS(bundle_check_path)
 test_row <- val_imp %>% slice(1) %>% select(all_of(PREDICTORS))
 test_scaled <- predict(b2$preproc_caret, test_row) %>% as.matrix()
-ridge_pred_check <- pmax(as.vector(predict(b2$ridge_model, newx = test_scaled)), 0)
+
+ridge_pred_check <- pmax(
+  as.vector(predict(b2$ridge_model, newx = test_scaled)),
+  0
+)
+
+lasso_pred_check <- pmax(
+  as.vector(predict(b2$lasso_model, newx = test_scaled)),
+  0)
+  
 logit_pred_check <- predict(b2$logit_model,
-                            newdata = as.data.frame(test_scaled), type = "response")
+                            newdata = as.data.frame(test_scaled), type = "response"
+                            )
+
 cat(sprintf("  Ridge pred  : %.4f%%\n", ridge_pred_check))
+cat(sprintf("  LASSO pred  : %.4f%%\n", lasso_pred_check))
 cat(sprintf("  Logit prob  : %.4f\n", logit_pred_check))
 cat("  [OK] Bundle loads and predicts correctly.\n")
 

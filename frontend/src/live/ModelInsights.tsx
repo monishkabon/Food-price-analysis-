@@ -14,7 +14,7 @@ export function LiveModelInsights() {
     <PageHeader eyebrow="Held-out evaluation" title="Model Insights" description="Review errors and classification results from the R analytics pipeline." />
     <AsyncPanel loading={query.isLoading} error={query.error} onRetry={() => query.refetch()}>
       {data && <>
-        <section className="model-banner"><div><span>Prediction models · version {data.model_version}</span><h2>Ridge regression + Logistic regression</h2><p>Test period: {data.test_period.start} – {data.test_period.end} · {data.n_test} observations</p></div></section>
+        <section className="model-banner"><div><span>Prediction models · version {data.model_version}</span><h2>Ridge regression + Logistic regression + LASSO regression</h2><p>Test period: {data.test_period.start} – {data.test_period.end} · {data.n_test} observations</p></div></section>
         <article className="panel table-panel live-section"><div className="panel-head"><div><h2>Movement-size prediction errors</h2><p className="live-caption">MAE and RMSE are in percentage points. Lower is better.</p></div></div>
           <div className="table-wrap"><table><thead><tr><th>Model</th><th>MAE</th><th>RMSE</th></tr></thead><tbody>{data.continuous.map(row => <tr key={row.model}><td>{row.model}</td><td>{row.mae.toFixed(4)}</td><td>{row.rmse.toFixed(4)}</td></tr>)}</tbody></table></div>
         </article>
