@@ -113,7 +113,6 @@ get_predictor_names <- function() {
         "rolling_volatility_3m",
         "mean_absolute_change_3m",
         "month_of_year",
-        "target_month",
         "absolute_change_pct"
     )
 }

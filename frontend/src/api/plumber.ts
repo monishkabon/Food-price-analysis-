@@ -60,6 +60,20 @@ const performanceSchema = z.object({
   test_period: z.object({ start: text, end: text }), n_test: number,
   model_version: text, large_change_threshold_pct: number, limitations: z.array(z.string()),
 });
+const inferenceSchema = z.object({
+  analysis_id: text,
+  analysis_category: text,
+  test_name: text,
+  null_hypothesis: text,
+  alt_hypothesis: text,
+  test_statistic: z.union([z.number(), text]),
+  df: z.union([z.number(), text]),
+  p_value: number,
+  effect_size: z.union([z.number(), text]),
+  effect_type: text,
+  conclusion: text,
+  practical_implications: text,
+});
 
 const envelopeSchema = z.object({
   success: scalar(z.boolean()), data: z.unknown().optional(),
@@ -108,6 +122,7 @@ export const backend = {
     method: 'POST', body: JSON.stringify(selection),
   }),
   performance: () => request('/models/performance', performanceSchema),
+  inferences: () => request('/analytics/inferences', z.array(inferenceSchema)),
 };
 
 export type Food = z.infer<typeof foodSchema>;
