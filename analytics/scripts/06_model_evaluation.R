@@ -3,7 +3,7 @@
 # Purpose : Evaluate all models on the held-out test set.
 #           Produces comprehensive evaluation outputs for the API /performance
 #           endpoint and the academic report.
-# Run     : Rscript analytics/06_model_evaluation.R
+# Run     : Rscript analytics/scripts/06_model_evaluation.R
 # Outputs : analytics/outputs/evaluation_results.csv
 #           analytics/outputs/plots/10_*.png
 # =============================================================================
@@ -120,6 +120,12 @@ mlr_pred  <- pmax(predict(bundle$mlr_model, newdata = as.data.frame(X_test)), 0)
 # Ridge
 ridge_pred <- pmax(as.vector(predict(bundle$ridge_model, newx = X_test)), 0)
 
+# LASSO
+lasso_pred <- pmax(
+  as.vector(predict(bundle$lasso_model, newx = X_test)),
+  0
+)
+
 # Logistic
 logit_prob <- predict(bundle$logit_model, newdata = as.data.frame(X_test),
                       type = "response")
@@ -142,7 +148,8 @@ eval_continuous <- function(name, preds, actuals) {
 cont_results <- bind_rows(
   eval_continuous("Baseline",  baseline_pred, y_test_cont),
   eval_continuous("MLR",       mlr_pred,      y_test_cont),
-  eval_continuous("Ridge",     ridge_pred,    y_test_cont)
+  eval_continuous("Ridge",     ridge_pred,    y_test_cont),
+  eval_continuous("LASSO",    lasso_pred,    y_test_cont)
 )
 
 cat("\n  Continuous model evaluation (test set):\n")
@@ -191,8 +198,10 @@ cat("\n5. Per-commodity breakdown ...\n")
 
 test_imp_eval <- test_imp %>%
   mutate(
-    pred_ridge    = ridge_pred,
     pred_baseline = baseline_pred,
+    pred_mlr      = mlr_pred,
+    pred_ridge    = ridge_pred,
+    pred_lasso    = lasso_pred,
     pred_logit_p  = logit_prob,
     pred_logit    = logit_pred
   )
@@ -200,10 +209,12 @@ test_imp_eval <- test_imp %>%
 per_food <- test_imp_eval %>%
   group_by(commodity) %>%
   summarise(
-    n              = n(),
-    mae_ridge      = mean(abs(next_absolute_change_pct - pred_ridge), na.rm = TRUE),
-    mae_baseline   = mean(abs(next_absolute_change_pct - pred_baseline), na.rm = TRUE),
-    brier_logit    = mean((pred_logit_p - next_large_change)^2, na.rm = TRUE),
+    n = n(),
+    mae_baseline = mean(abs(next_absolute_change_pct - pred_baseline), na.rm = TRUE),
+    mae_mlr      = mean(abs(next_absolute_change_pct - pred_mlr), na.rm = TRUE),
+    mae_ridge    = mean(abs(next_absolute_change_pct - pred_ridge), na.rm = TRUE),
+    mae_lasso    = mean(abs(next_absolute_change_pct - pred_lasso), na.rm = TRUE),
+    brier_logit  = mean((pred_logit_p - next_large_change)^2, na.rm = TRUE),
     pct_large_true = mean(next_large_change) * 100,
     .groups = "drop"
   )
@@ -223,7 +234,13 @@ p_mae <- cont_results %>%
   geom_text(aes(label = sprintf("%.3f%%", mae)), hjust = -0.1,
             colour = "#e2e8f0", size = 3.5) +
   coord_flip() +
-  scale_fill_manual(values = c("#38bdf8", "#fb923c", "#4ade80")) +
+  scale_fill_manual(values = c(
+  "Baseline" = "#38bdf8",
+  "MLR"      = "#fb923c",
+  "Ridge"    = "#4ade80",
+  "LASSO"    = "#a78bfa"
+)) +
+
   scale_y_continuous(labels = label_percent(scale = 1),
                      expand = expansion(mult = c(0, 0.25))) +
   labs(
@@ -289,15 +306,41 @@ ggsave(file.path(PLOT_DIR, "12_logit_calibration.png"),
 
 # d) Per-food MAE comparison
 p_food_mae <- per_food %>%
-  select(commodity, mae_baseline, mae_ridge) %>%
-  pivot_longer(c(mae_baseline, mae_ridge), names_to = "model", values_to = "mae") %>%
-  mutate(model = recode(model, mae_baseline = "Baseline", mae_ridge = "Ridge")) %>%
+  select(
+    commodity,
+    mae_baseline,
+    mae_mlr,
+    mae_ridge,
+    mae_lasso
+  ) %>%
+  pivot_longer(
+    c(mae_baseline, mae_mlr, mae_ridge, mae_lasso),
+    names_to = "model",
+    values_to = "mae"
+  ) %>%
+  mutate(
+    model = recode(
+      model,
+      mae_baseline = "Baseline",
+      mae_mlr = "MLR",
+      mae_ridge = "Ridge",
+      mae_lasso = "LASSO"
+    )
+  ) %>%
   ggplot(aes(x = commodity, y = mae, fill = model)) +
   geom_col(position = "dodge", width = 0.6, alpha = 0.9) +
-  scale_fill_manual(values = c("#fb923c", "#38bdf8"), name = "Model") +
+  scale_fill_manual(
+    values = c(
+      "Baseline" = "#38bdf8",
+      "MLR" = "#fb923c",
+      "Ridge" = "#4ade80",
+      "LASSO" = "#a78bfa"
+    ),
+    name = "Model"
+  ) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    title    = "Per-Commodity MAE — Baseline vs Ridge (Test Set)",
+    title    = "Per-Commodity MAE — Continuous Models (Test Set)",
     subtitle = "Lower is better",
     x = NULL, y = "MAE (percentage points)"
   ) +

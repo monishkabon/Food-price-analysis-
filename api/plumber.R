@@ -32,6 +32,10 @@ PFOOD_PATH <- find_asset(c(
   file.path(PROJ_ROOT, "analytics", "outputs", "reports", "per_food_evaluation.csv"),
   file.path(PROJ_ROOT, "analytics", "outputs", "per_food_evaluation.csv")
 ))
+STAT_PATH <- find_asset(c(
+  file.path(PROJ_ROOT, "analytics", "outputs", "reports", "statistical_results.csv"),
+  file.path(PROJ_ROOT, "analytics", "outputs", "statistical_results.csv")
+))
 FEATURE_SRC <- file.path(PROJ_ROOT, "analytics", "utils", "feature_builder.R")
 
 suppressPackageStartupMessages({
@@ -414,6 +418,31 @@ function(res) {
       "Observations within the same food-market series are not independent."
     )
   ))
+}
+
+# ===========================================================================
+# GET /api/analytics/inferences
+# ===========================================================================
+#* @get /api/analytics/inferences
+#* @tag analytics
+#* @serializer json
+function(res) {
+  if (!API_READY) {
+    return(json_error(res, 503, "API not ready."))
+  }
+  if (!file.exists(STAT_PATH)) {
+    return(json_error(res, 404, "Statistical inference results not found. Run analytics/scripts/04_statistical_inference.R first."))
+  }
+
+  stats <- tryCatch(
+    read_csv(STAT_PATH, show_col_types = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(stats)) {
+    return(json_error(res, 500, "Failed to load statistical results."))
+  }
+
+  json_ok(stats)
 }
 
 # ===========================================================================

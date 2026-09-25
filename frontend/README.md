@@ -4,7 +4,21 @@ A frontend for exploring historical Sri Lankan food prices and the R Plumber mod
 
 ## Run locally
 
-Start the backend from the repository root in a separate PowerShell terminal (the analytics pipeline must already have generated `model_bundle.rds`):
+Before starting the backend, run the complete analytics pipeline from the repository root:
+
+```powershell
+& "C:\Program Files\R\R-4.5.1\bin\Rscript.exe" analytics/run_pipeline.R
+```
+
+If you have already trained the models, run the evaluation step to populate Model Insights:
+
+```powershell
+& "C:\Program Files\R\R-4.5.1\bin\Rscript.exe" analytics/scripts/06_model_evaluation.R
+```
+
+Evaluation must finish successfully after each training run. Restart the backend after regenerating the model bundle because it loads results at startup.
+
+Start the backend from the repository root in a separate PowerShell terminal:
 
 ```powershell
 & "C:\Program Files\R\R-4.5.1\bin\Rscript.exe" api/run_api.R
