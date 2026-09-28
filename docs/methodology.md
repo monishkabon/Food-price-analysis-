@@ -105,28 +105,48 @@ Rows without a known `next_absolute_change_pct` (i.e., the latest row per food�
 
 ## 7. Model Candidate Summary
 
-| Model | Target | Purpose |
-|---|---|---|
-| Rolling-average baseline | `next_absolute_change_pct` | Benchmark — no modelling |
-| Multiple Linear Regression | `next_absolute_change_pct` | Interpretable continuous prediction |
-| Ridge Regression | `next_absolute_change_pct` | Handles correlated predictors |
-| Logistic Regression | `next_large_change` | Probability of instability alert |
+| Model | Target | Mechanism | Strategic Purpose in Procurement |
+|---|---|---|---|
+| Rolling-average baseline | `next_absolute_change_pct` | Trailing 3-month mean | Benchmark — robust to post-crisis disinflation |
+| Multiple Linear Regression | `next_absolute_change_pct` | Parametric OLS | Captures extreme volatility on perishable produce |
+| Ridge Regression (L2) | `next_absolute_change_pct` | L2 coefficient shrinkage | Regularization under correlated features |
+| LASSO Regression (L1) | `next_absolute_change_pct` | L1 feature selection | Prunes redundant predictors (retained `mean_absolute_change_3m`) |
+| Stepwise Selection (AIC) | `next_absolute_change_pct` | Bidirectional AIC search | Contrast with LASSO; retains saturated feature set |
+| Logistic Regression | `next_large_change` | Binary Logit GLM | Calibrated probability of severe price shock (>10%) |
 
 ---
 
-## 8. Evaluation Metrics
+## 8. Evaluation Metrics & Decision Optimization
 
-| Output | Metric | Description |
-|---|---|---|
-| Movement magnitude | MAE | Mean absolute error in percentage points |
-| Movement magnitude | RMSE | Root mean squared error in percentage points |
-| Event probability | Brier score | Calibration of predicted probabilities |
-| Alert decision | Precision | Of months flagged as high-risk, fraction correctly flagged |
-| Alert decision | Recall | Of truly high-risk months, fraction correctly identified |
-| Alert decision | Confusion matrix | Full breakdown at a 0.5 probability cutoff |
+| Output | Metric | Mathematical Definition | Procurement Significance |
+|---|---|---|---|
+| Movement magnitude | MAE | $\frac{1}{n} \sum \|y - \hat{y}\|$ | Linear average deviation in percentage points |
+| Movement magnitude | RMSE | $\sqrt{\frac{1}{n} \sum (y - \hat{y})^2}$ | Quadratic penalty for extreme price spikes |
+| Movement magnitude | Out-of-sample $R^2_{oos}$ | $1 - \frac{\sum (y - \hat{y})^2}{\sum (y - \bar{y}_{train})^2}$ | Variance explained relative to historical training mean |
+| Event probability | Brier Score | $\frac{1}{n} \sum (p_i - z_i)^2$ | Reliability and calibration of shock probabilities |
+| Event discrimination| ROC-AUC | Area under ROC curve | True Positive vs False Positive trade-off (Test: 0.8391) |
+| Alert optimization | Cost-Asymmetric Cutoff | $\min_p [4.0(FN) + 1.0(FP)]$ | Shifts cutoff from $0.50$ to $p^* = 0.25$, cutting costs by $30.5\%$ |
 
 ---
 
-## 9. Plain-Language Description for End Users
+## 9. Verification of Statistical Assumptions
 
-> This tool estimates how much a food price is likely to **move** next month — not whether it will rise or fall. A prediction of "8%" means the model expects the price to change by roughly 8% in either direction. The probability figure answers the question "How likely is a large price swing (>10%)?" This helps procurement teams decide how frequently to review supplier contracts.
+Classical OLS assumptions were empirically audited using formal diagnostics on the trained MLR specification:
+- **Multicollinearity:** $\text{Max VIF} = 13.64$ on `mean_absolute_change_3m` and $12.53$ on `rolling_volatility_3m`. LASSO resolved this by eliminating the redundant volatility feature.
+- **Homoscedasticity:** Studentized Breusch-Pagan test rejected constant variance ($BP = 331.32, p < 10^{-60}$). Residual variance widens with price instability.
+- **Normality of Residuals:** Shapiro-Wilk test rejected Gaussian errors ($W = 0.6684, p < 10^{-60}$) due to extreme positive price spikes (+206% maximum residual). Standard OLS intervals underestimate tail risk.
+- **Panel Autocorrelation:** Durbin-Watson statistic ($DW = 2.20$) indicates localized panel stability, but clustered errors exist across provincial economic centres.
+
+---
+
+## 10. Operational Two-Tier Procurement Architecture
+
+To translate statistical models into supply chain decisions, retail operations adopt a **Two-Tier Architecture**:
+1. **Tier 1 (Continuous Baseline):** Use the **3-Month Rolling Average** (Test MAE: $7.74\%$) for monthly working capital allocation and baseline supplier contract pricing on stable staples (Rice, Lentils).
+2. **Tier 2 (Tactical Early Warning):** Deploy **Logistic Regression at $p^* = 0.25$** (Recall: $80.9\%$, Precision: $56.1\%$) to trigger emergency forward contracting, supplier diversification, and safety stock releases on high-risk produce (Tomatoes, Onions, Potatoes).
+
+---
+
+## 11. Plain-Language Description for End Users
+
+> This tool estimates how much a food price is likely to **move** next month — not whether it will rise or fall. A prediction of "8%" means the model expects the price to change by roughly 8% in either direction. The probability figure answers the question "How likely is a large price swing (>10%)?" When the shock probability reaches **25% or higher**, procurement teams should immediately lock in forward contracts or release safety stock to avert store stockouts.
