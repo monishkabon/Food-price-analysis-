@@ -12,13 +12,17 @@ import { LiveModelInsights } from './live/ModelInsights';
 import { LiveScenarios } from './live/Scenarios';
 
 export function App() {
-  return <Routes><Route element={<AppShell />}>
-    <Route index element={<Navigate to="/overview" replace />} />
-    <Route path="overview" element={isLiveMode ? <LiveOverview /> : <Overview />} />
-    <Route path="market-explorer" element={isLiveMode ? <LiveMarketExplorer /> : <MarketExplorer />} />
-    <Route path="forecast" element={isLiveMode ? <LiveForecast /> : <Forecast />} />
-    <Route path="scenarios" element={isLiveMode ? <LiveScenarios /> : <Scenarios />} />
-    <Route path="model-insights" element={isLiveMode ? <LiveModelInsights /> : <ModelInsights />} />
-    <Route path="*" element={<Navigate to="/overview" replace />} />
-  </Route></Routes>;
+  return (
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route index element={<Navigate to="/overview" replace />} />
+        <Route path="overview" element={<Overview />} />
+        <Route path="market-explorer" element={isLiveMode ? <LiveMarketExplorer /> : <MarketExplorer />} />
+        <Route path="forecast" element={isLiveMode ? <LiveForecast /> : <Forecast />} />
+        <Route path="scenarios" element={isLiveMode ? <LiveScenarios /> : <Scenarios />} />
+        <Route path="model-insights" element={isLiveMode ? <LiveModelInsights /> : <ModelInsights />} />
+        <Route path="*" element={<Navigate to="/overview" replace />} />
+      </Route>
+    </Routes>
+  );
 }

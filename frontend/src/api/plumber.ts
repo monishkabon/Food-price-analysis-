@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const isLiveMode = import.meta.env.VITE_API_MODE !== 'mock';
+export const isLiveMode = import.meta.env.VITE_API_MODE === 'live';
 const base = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
 
 // Plumber wraps scalar list fields in arrays; data-frame rows remain arrays.
