@@ -1,0 +1,5 @@
+assumption,test_used,statistic,p_value,verdict
+Multicollinearity (Max VIF),VIF,13.642485691689723,NA,Violated (Severe Collinearity)
+Heteroscedasticity (Breusch-Pagan),Studentized Breusch-Pagan,331.31582763796183,1.226592103981522e-67,Violated (Heteroscedastic)
+Normality of Residuals (Shapiro-Wilk),Shapiro-Wilk (n=3000),0.6684222677107956,1.6713027071066768e-60,Violated (Non-Gaussian Skew)
+Independence (Durbin-Watson),Durbin-Watson,2.19887216252194,0.9999999944545817,Panel / Boundary

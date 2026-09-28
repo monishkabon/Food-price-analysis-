@@ -1,0 +1,9 @@
+import type { MetadataResponse, Selection } from '../types';
+export function FilterPanel({metadata,value,onChange,compact=false}:{metadata:MetadataResponse;value:Selection;onChange:(v:Selection)=>void;compact?:boolean}){const set=(key:keyof Selection,next:string)=>{const update={...value,[key]:next};if(key==='category')update.commodity='';if(key==='province'){update.district='';update.market=''}if(key==='district')update.market='';onChange(update)};return <div className={`filters ${compact?'compact':''}`}>
+  <label>Category<select value={value.category} onChange={e=>set('category',e.target.value)}><option value="">Select</option>{Object.keys(metadata.categories).map(x=><option key={x}>{x}</option>)}</select></label>
+  <label>Commodity<select value={value.commodity} disabled={!value.category} onChange={e=>set('commodity',e.target.value)}><option value="">Select</option>{(metadata.categories[value.category]??[]).map(x=><option key={x}>{x}</option>)}</select></label>
+  <label>Province<select value={value.province} onChange={e=>set('province',e.target.value)}><option value="">Select</option>{Object.keys(metadata.provinces).map(x=><option key={x}>{x}</option>)}</select></label>
+  <label>District<select value={value.district} disabled={!value.province} onChange={e=>set('district',e.target.value)}><option value="">Select</option>{(metadata.provinces[value.province]??[]).map(x=><option key={x}>{x}</option>)}</select></label>
+  <label>Market<select value={value.market} disabled={!value.district} onChange={e=>set('market',e.target.value)}><option value="">Select</option>{(metadata.markets[value.district]??[]).map(x=><option key={x}>{x}</option>)}</select></label>
+  <label>Price type<select value={value.priceType} onChange={e=>set('priceType',e.target.value)}><option value="">Select</option>{metadata.priceTypes.map(x=><option key={x}>{x}</option>)}</select></label>
+  </div>}
